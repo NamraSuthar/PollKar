@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  
+  "type": "module",
   "scripts": {
     "dev": "pnpm --parallel --filter frontend --filter server dev",
     "dev:frontend": "pnpm --filter frontend dev",

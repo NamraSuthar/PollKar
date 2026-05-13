@@ -5,7 +5,10 @@ import morgan from 'morgan';
 
 
 import { env } from './common/config/env.js';
-import { notFoundHandler,errorHandler } from './common/middleware/error.middleware.js';
+import { notFoundHandler, errorHandler } from './common/middleware/error.middleware.js';
+import { authRouter } from './modules/auth/auth.route.js';
+
+
 
 function createApp() {
     const app = express();
@@ -24,6 +27,12 @@ function createApp() {
     app.get("/health", (req, res) => {
         res.status(200).json({ success: true, message: "PulseKar API is running" });
     });
+
+    app.use('/api/auth', authRouter)
+
+
+
+
     app.use(notFoundHandler)
     app.use(errorHandler)
 
