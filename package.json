@@ -1,0 +1,20 @@
+{
+  "name": "PulseKar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  
+  "scripts": {
+    "dev": "pnpm --parallel --filter frontend --filter server dev",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev:server": "pnpm --filter server dev",
+    "build": "pnpm --filter frontend build",
+    "start": "pnpm --filter server start"
+  },
+
+
+  "keywords": [],
+  "author": "Namra Suthar",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.2"
+}
