@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import { env } from './common/config/env.js';
 import { notFoundHandler, errorHandler } from './common/middleware/error.middleware.js';
 import { authRouter } from './modules/auth/auth.route.js';
+import { pollRoutes } from './modules/polls/poll.routes.js';
 
 
 
@@ -29,7 +30,7 @@ function createApp() {
     });
 
     app.use('/api/auth', authRouter)
-
+    app.use('/api/polls', pollRoutes)
 
 
 
