@@ -9,7 +9,7 @@ import { notFoundHandler, errorHandler } from './common/middleware/error.middlew
 import { authRouter } from './modules/auth/auth.route.js';
 import { pollRoutes } from './modules/polls/poll.routes.js';
 import { responseRoutes } from './modules/responses/response.routes.js';
-
+import { analyticsRoutes } from "./modules/analytics/analytics.routes.js";
 
 function createApp() {
     const app = express();
@@ -32,7 +32,7 @@ function createApp() {
     app.use('/api/auth', authRouter)
     app.use('/api/polls', pollRoutes)
     app.use('/api/responses', responseRoutes)
-
+    app.use('/api/analytics', analyticsRoutes)
 
     app.use(notFoundHandler)
     app.use(errorHandler)
