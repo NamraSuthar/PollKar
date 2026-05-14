@@ -2,6 +2,8 @@ import { AppError } from "../../common/errors/app-error.js";
 
 import { toResponseSubmissionDto } from "./dto/response.dto.js";
 import { responseRepository } from "./response.repository.js";
+import { emitPollRoom } from "../../common/socket/socket.js";
+import {SOCKET_EVENTS} from "../../common/socket/socket-event.js";
 
 export class ResponseService {
     async submitResponse(slug, payload, user) {
@@ -78,6 +80,12 @@ export class ResponseService {
             answerRows: normalizedAnswers,
         });
 
+        emitPollRoom(poll.id, SOCKET_EVENTS.POLL_RESPONSE_CREATED, {
+            pollId: poll.id,
+            responseId: result.response.id,
+            responseCount: result.responseCount,
+            submittedAt: result.response.createdAt,
+        });
         return toResponseSubmissionDto(result.response, result.poll);
     }
 }
