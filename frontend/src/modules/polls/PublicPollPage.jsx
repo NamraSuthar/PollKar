@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { Badge } from "../../common/components/Badge";
-import { BrandLogo } from "../../common/components/BrandLogo";
 import { Button } from "../../common/components/Button";
 import { Card } from "../../common/components/Card";
 import { api } from "../../common/utils/api";
@@ -117,7 +116,7 @@ export function PublicPollPage() {
 
   if (loading) {
     return (
-      <main className="pollkar-canvas pollkar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
+      <main className="min-h-screen bg-neutral-50 px-4 py-10 text-neutral-950 dark:bg-neutral-950 dark:text-white">
         <div className="mx-auto max-w-2xl">
           <Card className="p-6">
             <p className="text-sm text-neutral-500 dark:text-neutral-400">
@@ -131,7 +130,7 @@ export function PublicPollPage() {
 
   if (error && !poll) {
     return (
-      <main className="pollkar-canvas pollkar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
+      <main className="min-h-screen bg-neutral-50 px-4 py-10 text-neutral-950 dark:bg-neutral-950 dark:text-white">
         <div className="mx-auto max-w-2xl">
           <Card className="p-6">
             <p className="text-sm text-red-600">{error}</p>
@@ -141,43 +140,13 @@ export function PublicPollPage() {
     );
   }
 
-  if (!poll) {
-    return (
-      <main className="pollkar-canvas pollkar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
-        <div className="mx-auto max-w-2xl">
-          <Card className="p-6">
-            <p className="text-sm text-red-600">Poll not found.</p>
-          </Card>
-        </div>
-      </main>
-    );
-  }
-
-  if (!poll.isPublished) {
-    return (
-      <main className="pollkar-canvas pollkar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
-        <div className="mx-auto max-w-2xl">
-          <Card className="p-6">
-            <Badge variant="warning">Not Published</Badge>
-            <h1 className="font-display mt-4 text-4xl font-bold tracking-tight">
-              {poll.title}
-            </h1>
-            <p className="mt-2 text-neutral-600 dark:text-neutral-400">
-              This poll is not yet published. Please try again later.
-            </p>
-          </Card>
-        </div>
-      </main>
-    );
-  }
-
   if (poll.canViewResults) {
     return (
-      <main className="pollkar-canvas pollkar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
+      <main className="min-h-screen bg-neutral-50 px-4 py-10 text-neutral-950 dark:bg-neutral-950 dark:text-white">
         <div className="mx-auto max-w-2xl">
           <Card className="p-6">
             <Badge>Published results</Badge>
-            <h1 className="font-display mt-4 text-4xl font-bold tracking-tight">
+            <h1 className="mt-4 text-3xl font-bold tracking-tight">
               {poll.title}
             </h1>
             <p className="mt-2 text-neutral-600 dark:text-neutral-400">
@@ -197,11 +166,11 @@ export function PublicPollPage() {
 
   if (!poll.canRespond) {
     return (
-      <main className="pollkar-canvas pollkar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
+      <main className="min-h-screen bg-neutral-50 px-4 py-10 text-neutral-950 dark:bg-neutral-950 dark:text-white">
         <div className="mx-auto max-w-2xl">
           <Card className="p-6">
             <Badge variant="warning">Closed</Badge>
-            <h1 className="font-display mt-4 text-4xl font-bold tracking-tight">
+            <h1 className="mt-4 text-3xl font-bold tracking-tight">
               {poll.title}
             </h1>
             <p className="mt-2 text-neutral-600 dark:text-neutral-400">
@@ -215,13 +184,13 @@ export function PublicPollPage() {
 
   if (submitted) {
     return (
-      <main className="pollkar-canvas pollkar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
+      <main className="min-h-screen bg-neutral-50 px-4 py-10 text-neutral-950 dark:bg-neutral-950 dark:text-white">
         <div className="mx-auto max-w-2xl">
           <Card className="p-6 text-center">
-            <div className="mx-auto grid size-12 place-items-center rounded-full border-2 border-[#141414] bg-[#f3701e] text-[#141414] dark:border-[#e8d8c9]">
+            <div className="mx-auto grid size-12 place-items-center rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-300">
               <CheckCircle2 className="size-6" />
             </div>
-            <h1 className="font-display mt-4 text-3xl font-bold tracking-tight">
+            <h1 className="mt-4 text-2xl font-bold tracking-tight">
               Response submitted
             </h1>
             <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
@@ -234,11 +203,13 @@ export function PublicPollPage() {
   }
 
   return (
-    <main className="pollkar-canvas pollkar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
+    <main className="min-h-screen bg-neutral-50 px-4 py-10 text-neutral-950 dark:bg-neutral-950 dark:text-white">
       <div className="mx-auto max-w-2xl">
         <div className="mb-6">
-          <BrandLogo compact className="mb-4" />
-          <h1 className="font-display mt-2 text-5xl font-bold tracking-tight">
+          <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
+            PulseKar Poll
+          </p>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight">
             {poll.title}
           </h1>
           {poll.description ? (
@@ -295,8 +266,8 @@ export function PublicPollPage() {
                       className={[
                         "rounded-lg border px-4 py-3 text-left text-sm transition",
                         selected
-                          ? "border-[#141414] bg-[#f3701e] text-[#141414] shadow-[4px_4px_0_#141414] dark:border-[#e8d8c9] dark:shadow-[4px_4px_0_#4b607f]"
-                          : "border-[#141414] bg-[#fff7ef] hover:bg-[#e8d8c9] dark:border-[#e8d8c9] dark:bg-[#191919] dark:hover:bg-[#4b607f]/40",
+                          ? "border-neutral-950 bg-neutral-950 text-white dark:border-white dark:bg-white dark:text-neutral-950"
+                          : "border-neutral-200 bg-white hover:border-neutral-400 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-600",
                       ].join(" ")}
                     >
                       {option.label}
