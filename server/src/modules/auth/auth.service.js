@@ -14,7 +14,11 @@ class AuthService {
         }
 
         const passwordHash = await hashPassword(payload.password);
-        const newUser = await authRepository.createUser({ ...payload, passwordHash });
+        const newUser = await authRepository.createUser({
+            name: payload.name,
+            email: payload.email,
+            passwordHash,
+        });
         const accessToken = signAccessToken({ id: newUser.id, email: newUser.email });
 
         return toAuthResponseDto(newUser, accessToken);
