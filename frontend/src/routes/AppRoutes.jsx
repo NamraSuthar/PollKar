@@ -11,6 +11,7 @@ import { PublicResultsPage } from "../modules/analytics/PublicResultsPage.jsx";
 import { CreatePollPage } from "../modules/polls/CreatePollPage.jsx";
 import { PollListPage } from "../modules/polls/PollListPage.jsx";
 import { PublicPollPage } from "../modules/polls/PublicPollPage.jsx";
+import { PollDetailPage } from "../modules/polls/PageDetailPoll.jsx";
 
 function ProtectedRoute({ children }) {
     if (!getAccessToken()) {
@@ -39,6 +40,7 @@ export function AppRoutes({ theme, onToggleTheme }) {
                 <Route index element={<Navigate to="/dashboard/polls" replace />} />
                 <Route path="polls" element={<PollListPage />} />
                 <Route path="polls/new" element={<CreatePollPage />} />
+                <Route path="polls/:id" element={<PollDetailPage />} />
                 <Route path="analytics" element={<AnalyticsPage />} />
             </Route>
 
