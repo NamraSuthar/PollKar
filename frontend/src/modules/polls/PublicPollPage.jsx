@@ -141,6 +141,36 @@ export function PublicPollPage() {
     );
   }
 
+  if (!poll) {
+    return (
+      <main className="pollkar-canvas pollkar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
+        <div className="mx-auto max-w-2xl">
+          <Card className="p-6">
+            <p className="text-sm text-red-600">Poll not found.</p>
+          </Card>
+        </div>
+      </main>
+    );
+  }
+
+  if (!poll.isPublished) {
+    return (
+      <main className="pollkar-canvas pollkar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
+        <div className="mx-auto max-w-2xl">
+          <Card className="p-6">
+            <Badge variant="warning">Not Published</Badge>
+            <h1 className="font-display mt-4 text-4xl font-bold tracking-tight">
+              {poll.title}
+            </h1>
+            <p className="mt-2 text-neutral-600 dark:text-neutral-400">
+              This poll is not yet published. Please try again later.
+            </p>
+          </Card>
+        </div>
+      </main>
+    );
+  }
+
   if (poll.canViewResults) {
     return (
       <main className="pollkar-canvas pollkar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
