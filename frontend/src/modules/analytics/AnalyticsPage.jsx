@@ -1,24 +1,232 @@
+import { Activity, BarChart3, Radio } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+
 import { Badge } from "../../common/components/Badge";
+import { Button } from "../../common/components/Button";
 import { Card } from "../../common/components/Card";
+import { api } from "../../common/utils/api";
+import { socket } from "../../socket/socket";
+
+function formatDate(value) {
+  if (!value) {
+    return "No expiry";
+  }
+
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(new Date(value));
+}
+
+function OptionBar({ option }) {
+  return (
+    <div>
+      <div className="mb-1 flex justify-between gap-4 text-sm">
+        <span>{option.label}</span>
+        <span className="text-neutral-500 dark:text-neutral-400">
+          {option.count} votes · {option.percentage}%
+        </span>
+      </div>
+
+      <div className="h-2 overflow-hidden rounded-full bg-neutral-100 dark:bg-neutral-900">
+        <div
+          className="h-full rounded-full bg-neutral-950 transition-all dark:bg-white"
+          style={{ width: `${option.percentage}%` }}
+        />
+      </div>
+    </div>
+  );
+}
 
 export function AnalyticsPage() {
+  const { pollId } = useParams();
+
+  const [analytics, setAnalytics] = useState(null);
+  const [loading, setLoading] = useState(Boolean(pollId));
+  const [error, setError] = useState("");
+  const [liveMessage, setLiveMessage] = useState("");
+
+  async function loadAnalytics() {
+    if (!pollId) {
+      return;
+    }
+
+    setError("");
+
+    try {
+      const response = await api.get(`/analytics/polls/${pollId}`);
+      setAnalytics(response.data.data.analytics);
+    } catch (err) {
+      setError(err.response?.data?.message || "Unable to load analytics.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    loadAnalytics();
+  }, [pollId]);
+
+  useEffect(() => {
+    if (!pollId) {
+      return;
+    }
+
+    if (!socket.connected) {
+      socket.connect();
+    }
+
+    socket.emit("poll:join", pollId);
+
+    function handleResponseCreated(payload) {
+      setLiveMessage(`New response received. Total responses: ${payload.responseCount}`);
+      loadAnalytics();
+    }
+
+    socket.on("poll:response-created", handleResponseCreated);
+
+    return () => {
+      socket.emit("poll:leave", pollId);
+      socket.off("poll:response-created", handleResponseCreated);
+    };
+  }, [pollId]);
+
+  if (!pollId) {
     return (
+      <div>
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold tracking-tight">Analytics</h1>
+          <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+            Open a poll from your dashboard to view detailed analytics.
+          </p>
+        </div>
+
+        <Card className="p-6">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
+            Choose a poll to inspect response summaries and live updates.
+          </p>
+          <Link to="/dashboard/polls">
+            <Button className="mt-5">Go to polls</Button>
+          </Link>
+        </Card>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <Card className="p-6">
+        <p className="text-sm text-neutral-500 dark:text-neutral-400">
+          Loading analytics...
+        </p>
+      </Card>
+    );
+  }
+
+  if (error && !analytics) {
+    return <p className="text-sm text-red-600">{error}</p>;
+  }
+
+  return (
+    <div>
+      <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-start">
         <div>
-            <div className="mb-6 flex items-start justify-between gap-4">
-                <div>
-                    <h1 className="text-2xl font-bold tracking-tight">Analytics</h1>
-                    <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-                        Live response summaries and question-wise option counts.
-                    </p>
-                </div>
-                <Badge variant="live">Live</Badge>
+          <div className="flex flex-wrap items-center gap-2">
+            <h1 className="text-2xl font-bold tracking-tight">
+              {analytics.poll.title}
+            </h1>
+            <Badge variant="live">Live</Badge>
+          </div>
+
+          <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+            {analytics.poll.description || "Response analytics and option summaries."}
+          </p>
+        </div>
+
+        <Link to={`/dashboard/polls/${analytics.poll.id}`}>
+          <Button variant="secondary">Back to poll</Button>
+        </Link>
+      </div>
+
+      {liveMessage ? (
+        <Card className="mb-4 border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-900 dark:bg-emerald-950">
+          <p className="text-sm text-emerald-700 dark:text-emerald-300">
+            {liveMessage}
+          </p>
+        </Card>
+      ) : null}
+
+      {error ? <p className="mb-4 text-sm text-red-600">{error}</p> : null}
+
+      <div className="mb-4 grid gap-4 md:grid-cols-3">
+        <Card className="p-5">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                Total responses
+              </p>
+              <p className="mt-2 text-3xl font-bold tracking-tight">
+                {analytics.summary.totalResponses}
+              </p>
+            </div>
+            <Activity className="size-5 text-neutral-400" />
+          </div>
+        </Card>
+
+        <Card className="p-5">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                Status
+              </p>
+              <p className="mt-2 text-lg font-semibold capitalize">
+                {analytics.summary.completionStatus}
+              </p>
+            </div>
+            <Radio className="size-5 text-neutral-400" />
+          </div>
+        </Card>
+
+        <Card className="p-5">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                Expiry
+              </p>
+              <p className="mt-2 text-sm font-semibold">
+                {formatDate(analytics.poll.expiresAt)}
+              </p>
+            </div>
+            <BarChart3 className="size-5 text-neutral-400" />
+          </div>
+        </Card>
+      </div>
+
+      <div className="grid gap-4">
+        {analytics.questions.map((question) => (
+          <Card key={question.id} className="p-5">
+            <div className="mb-4 flex flex-col justify-between gap-2 md:flex-row md:items-start">
+              <div>
+                <p className="text-xs font-medium uppercase text-neutral-500 dark:text-neutral-500">
+                  Question {question.position + 1}
+                </p>
+                <h2 className="mt-1 font-semibold">{question.title}</h2>
+              </div>
+
+              <Badge variant={question.isRequired ? "neutral" : "warning"}>
+                {question.isRequired ? "Required" : "Optional"}
+              </Badge>
             </div>
 
-            <Card className="p-6">
-                <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                    Analytics dashboard placeholder.
-                </p>
-            </Card>
-        </div>
-    );
+            <div className="grid gap-4">
+              {question.options.map((option) => (
+                <OptionBar key={option.id} option={option} />
+              ))}
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
 }
