@@ -46,7 +46,7 @@ export function PollListPage() {
         <div>
             <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight">Polls</h1>
+          <h1 className="font-display text-3xl font-bold tracking-tight">Polls</h1>
                     <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
                         Manage live polls, response collection, and published outcomes.
                     </p>
@@ -91,7 +91,7 @@ export function PollListPage() {
                     const publicUrl = `${window.location.origin}/poll/${poll.slug}`;
 
                     return (
-                        <Card key={poll.id} className="p-5 transition hover:border-neutral-400 dark:hover:border-neutral-600">
+            <Card key={poll.id} className="p-5 transition hover:-translate-y-0.5">
                             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                                 <div>
                                     <div className="flex flex-wrap items-center gap-2">

@@ -2,13 +2,13 @@ import { cn } from "../utils/cn";
 
 const variants = {
     neutral:
-        "border-neutral-200 bg-neutral-50 text-neutral-700 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-300",
+        "border-[#141414] bg-[#e8d8c9] text-[#141414] dark:border-[#e8d8c9] dark:bg-[#191919] dark:text-[#e8d8c9]",
     live:
-        "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-300",
+        "border-[#141414] bg-[#f3701e] text-[#141414] dark:border-[#e8d8c9] dark:bg-[#f3701e] dark:text-[#111111]",
     warning:
-        "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300",
+        "border-[#141414] bg-[#4b607f] text-white dark:border-[#e8d8c9] dark:bg-[#4b607f] dark:text-[#e8d8c9]",
     danger:
-        "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300",
+        "border-[#141414] bg-red-600 text-white dark:border-[#e8d8c9] dark:bg-red-700 dark:text-white",
 };
 
 export function Badge({ children, variant = "neutral", className }) {

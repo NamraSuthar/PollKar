@@ -34,7 +34,7 @@ export function PublicResultsPage() {
 
     if (loading) {
         return (
-            <main className="min-h-screen bg-neutral-50 px-4 py-10 text-neutral-950 dark:bg-neutral-950 dark:text-white">
+            <main className="pulsekar-canvas pulsekar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
                 <div className="mx-auto max-w-3xl">
                     <Card className="p-6">
                         <p className="text-sm text-neutral-500 dark:text-neutral-400">
@@ -48,7 +48,7 @@ export function PublicResultsPage() {
 
     if (error) {
         return (
-            <main className="min-h-screen bg-neutral-50 px-4 py-10 text-neutral-950 dark:bg-neutral-950 dark:text-white">
+            <main className="pulsekar-canvas pulsekar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
                 <div className="mx-auto max-w-3xl">
                     <Card className="p-6">
                         <p className="text-sm text-red-600">{error}</p>
@@ -59,7 +59,7 @@ export function PublicResultsPage() {
     }
 
     return (
-        <main className="min-h-screen bg-neutral-50 px-4 py-10 text-neutral-950 dark:bg-neutral-950 dark:text-white">
+        <main className="pulsekar-canvas pulsekar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
             <div className="mx-auto max-w-3xl">
                 <Link to={`/poll/${slug}`}>
                     <Button variant="ghost" size="sm">
@@ -70,7 +70,7 @@ export function PublicResultsPage() {
 
                 <div className="mt-6 mb-6">
                     <Badge>Published results</Badge>
-                    <h1 className="mt-4 text-3xl font-bold tracking-tight">
+                    <h1 className="font-display mt-4 text-5xl font-bold tracking-tight">
                         {analytics.poll.title}
                     </h1>
                     <p className="mt-2 text-neutral-600 dark:text-neutral-400">
@@ -93,9 +93,9 @@ export function PublicResultsPage() {
                                             </span>
                                         </div>
 
-                                        <div className="h-2 overflow-hidden rounded-full bg-neutral-100 dark:bg-neutral-900">
+                                        <div className="h-3 overflow-hidden rounded-full border border-[#141414] bg-[#e8d8c9] dark:border-[#e8d8c9] dark:bg-[#111111]">
                                             <div
-                                                className="h-full rounded-full bg-neutral-950 dark:bg-white"
+                                                className="h-full rounded-full bg-[#f3701e]"
                                                 style={{ width: `${option.percentage}%` }}
                                             />
                                         </div>

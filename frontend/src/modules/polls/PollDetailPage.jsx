@@ -113,7 +113,7 @@ export function PollDetailPage() {
             <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-start">
                 <div>
                     <div className="flex flex-wrap items-center gap-2">
-                        <h1 className="text-2xl font-bold tracking-tight">{poll.title}</h1>
+            <h1 className="font-display text-3xl font-bold tracking-tight">{poll.title}</h1>
                         <Badge variant={status.variant}>{status.label}</Badge>
                     </div>
 
@@ -179,7 +179,7 @@ export function PollDetailPage() {
                 <aside className="grid content-start gap-4">
                     <Card className="p-5">
                         <h2 className="font-semibold">Share link</h2>
-                        <p className="mt-2 break-all rounded-lg border border-neutral-200 bg-neutral-50 p-3 text-sm text-neutral-600 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-400">
+            <p className="mt-2 break-all rounded-xl border-2 border-[#141414] bg-[#fff7ef] p-3 text-sm text-[#4b607f] dark:border-[#e8d8c9] dark:bg-[#111111] dark:text-[#e8d8c9]">
                             {publicUrl}
                         </p>
 

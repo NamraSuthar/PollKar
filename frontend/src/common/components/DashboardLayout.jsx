@@ -27,14 +27,14 @@ export function DashboardLayout({ theme, onToggleTheme }) {
     }
 
     return (
-        <main className="min-h-screen bg-neutral-50 text-neutral-950 dark:bg-neutral-950 dark:text-white">
-            <header className="sticky top-0 z-20 border-b border-neutral-200 bg-white/90 backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/90">
+        <main className="pulsekar-canvas pulsekar-grid min-h-screen text-[#141414] dark:text-[#e8d8c9]">
+            <header className="sticky top-0 z-20 border-b-2 border-[#141414] bg-[#e8d8c9]/90 backdrop-blur dark:border-[#e8d8c9] dark:bg-[#111111]/90">
                 <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
                     <NavLink to="/dashboard/polls" className="flex items-center gap-2">
-                        <span className="grid size-8 place-items-center rounded-lg bg-neutral-950 text-sm font-bold text-white dark:bg-white dark:text-neutral-950">
+                        <span className="grid size-8 place-items-center rounded-xl border-2 border-[#141414] bg-[#f3701e] text-sm font-black text-[#141414] shadow-[3px_3px_0_#141414] dark:border-[#e8d8c9] dark:shadow-[3px_3px_0_#4b607f]">
                             P
                         </span>
-                        <span className="text-sm font-semibold tracking-tight">
+                        <span className="font-display text-sm font-bold tracking-tight">
                             PulseKar
                         </span>
                     </NavLink>
@@ -55,9 +55,9 @@ export function DashboardLayout({ theme, onToggleTheme }) {
                 </div>
             </header>
 
-            <div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 md:grid-cols-[220px_1fr]">
+            <div className="mx-auto grid max-w-7xl gap-6 px-4 py-6 md:grid-cols-[240px_1fr]">
                 <aside className="hidden md:block">
-                    <nav className="grid gap-1">
+                    <nav className="sticky top-24 grid gap-2 rounded-[1.35rem] border-2 border-[#141414] bg-[#4b607f] p-3 shadow-[6px_6px_0_#141414] dark:border-[#e8d8c9] dark:bg-[#191919] dark:shadow-[6px_6px_0_#4b607f]">
                         {navItems.map((item) => {
                             const Icon = item.icon;
 
@@ -67,10 +67,10 @@ export function DashboardLayout({ theme, onToggleTheme }) {
                                     to={item.to}
                                     className={({ isActive }) =>
                                         [
-                                            "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition",
+                                            "flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold transition",
                                             isActive
-                                                ? "bg-neutral-950 text-white dark:bg-white dark:text-neutral-950"
-                                                : "text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-900",
+                                                ? "bg-[#f3701e] text-[#141414]"
+                                                : "text-white hover:bg-white/15 dark:text-[#e8d8c9] dark:hover:bg-[#e8d8c9]/10",
                                         ].join(" ")
                                     }
                                 >

@@ -4,14 +4,14 @@ export function Textarea({ label, error, className, ...props }) {
     return (
         <label className="grid gap-2">
             {label ? (
-                <span className="text-sm font-medium text-neutral-800 dark:text-neutral-200">
+                <span className="text-sm font-bold text-[#141414] dark:text-[#e8d8c9]">
                     {label}
                 </span>
             ) : null}
 
             <textarea
                 className={cn(
-                    "min-h-28 resize-y rounded-lg border border-neutral-200 bg-white px-3 py-3 text-sm text-neutral-950 outline-none transition placeholder:text-neutral-400 focus:border-neutral-950 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white dark:focus:border-white",
+                    "min-h-28 resize-y rounded-xl border-2 border-[#141414] bg-[#fff7ef] px-3 py-3 text-sm text-[#141414] outline-none transition placeholder:text-[#4b607f]/70 focus:shadow-[3px_3px_0_#f3701e] dark:border-[#e8d8c9] dark:bg-[#111111] dark:text-[#e8d8c9] dark:placeholder:text-[#e8d8c9]/50 dark:focus:shadow-[3px_3px_0_#f3701e]",
                     error &&
                     "border-red-500 focus:border-red-500 dark:border-red-500 dark:focus:border-red-500",
                     className

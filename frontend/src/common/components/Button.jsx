@@ -4,13 +4,13 @@ import { cn } from "../utils/cn";
 
 const variants = {
   primary:
-    "border-2 border-neutral-950 bg-neutral-950 text-white shadow-[3px_3px_0_#d8f275] hover:-translate-y-0.5 dark:border-white dark:bg-white dark:text-neutral-950 dark:shadow-[3px_3px_0_#ef5b52]",
+    "border-2 border-[#141414] bg-[#f3701e] text-[#141414] shadow-[4px_4px_0_#141414] hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#141414] dark:border-[#e8d8c9] dark:bg-[#f3701e] dark:text-[#111111] dark:shadow-[4px_4px_0_#4b607f]",
   secondary:
-    "border-2 border-neutral-950 bg-white text-neutral-950 shadow-[3px_3px_0_#111] hover:-translate-y-0.5 dark:border-neutral-700 dark:bg-[#181816] dark:text-white dark:shadow-[3px_3px_0_#000]",
+    "border-2 border-[#141414] bg-[#e8d8c9] text-[#141414] shadow-[4px_4px_0_#4b607f] hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#4b607f] dark:border-[#e8d8c9] dark:bg-[#191919] dark:text-[#e8d8c9] dark:shadow-[4px_4px_0_#4b607f]",
   ghost:
-    "text-neutral-700 hover:bg-black/5 dark:text-neutral-300 dark:hover:bg-white/10",
+    "text-[#141414] hover:bg-[#141414]/10 dark:text-[#e8d8c9] dark:hover:bg-[#e8d8c9]/10",
   danger:
-    "border-2 border-red-700 bg-red-600 text-white shadow-[3px_3px_0_#111]",
+    "border-2 border-[#141414] bg-red-600 text-white shadow-[4px_4px_0_#141414]",
 };
 
 const sizes = {
@@ -34,7 +34,7 @@ export function Button({
             type={type}
             disabled={disabled || loading}
             className={cn(
-                "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition disabled:cursor-not-allowed disabled:opacity-50",
+                "inline-flex items-center justify-center gap-2 rounded-xl font-bold transition disabled:cursor-not-allowed disabled:opacity-50",
                 variants[variant],
                 sizes[size],
                 className

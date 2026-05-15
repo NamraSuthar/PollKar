@@ -194,7 +194,7 @@ export function CreatePollPage() {
         <div>
             <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight">Create poll</h1>
+                    <h1 className="font-display text-3xl font-bold tracking-tight">Create poll</h1>
                     <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
                         Build a single-choice poll with questions, options, expiry, and response mode.
                     </p>

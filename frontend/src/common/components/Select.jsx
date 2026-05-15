@@ -4,14 +4,14 @@ export function Select({ label, error, className, children, ...props }) {
     return (
         <label className="grid gap-2">
             {label ? (
-                <span className="text-sm font-medium text-neutral-800 dark:text-neutral-200">
+                <span className="text-sm font-bold text-[#141414] dark:text-[#e8d8c9]">
                     {label}
                 </span>
             ) : null}
 
             <select
                 className={cn(
-                    "h-11 rounded-lg border border-neutral-200 bg-white px-3 text-sm text-neutral-950 outline-none transition focus:border-neutral-950 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white dark:focus:border-white",
+                    "h-11 rounded-xl border-2 border-[#141414] bg-[#fff7ef] px-3 text-sm text-[#141414] outline-none transition focus:shadow-[3px_3px_0_#f3701e] dark:border-[#e8d8c9] dark:bg-[#111111] dark:text-[#e8d8c9] dark:focus:shadow-[3px_3px_0_#f3701e]",
                     error &&
                     "border-red-500 focus:border-red-500 dark:border-red-500 dark:focus:border-red-500",
                     className

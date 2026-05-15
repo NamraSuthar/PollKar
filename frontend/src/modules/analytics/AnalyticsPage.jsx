@@ -29,9 +29,9 @@ function OptionBar({ option }) {
         </span>
       </div>
 
-      <div className="h-2 overflow-hidden rounded-full bg-neutral-100 dark:bg-neutral-900">
+      <div className="h-3 overflow-hidden rounded-full border border-[#141414] bg-[#e8d8c9] dark:border-[#e8d8c9] dark:bg-[#111111]">
         <div
-          className="h-full rounded-full bg-neutral-950 transition-all dark:bg-white"
+          className="h-full rounded-full bg-[#f3701e] transition-all"
           style={{ width: `${option.percentage}%` }}
         />
       </div>
@@ -96,7 +96,7 @@ export function AnalyticsPage() {
     return (
       <div>
         <div className="mb-6">
-          <h1 className="text-2xl font-bold tracking-tight">Analytics</h1>
+          <h1 className="font-display text-3xl font-bold tracking-tight">Analytics</h1>
           <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
             Open a poll from your dashboard to view detailed analytics.
           </p>
@@ -133,7 +133,7 @@ export function AnalyticsPage() {
       <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-start">
         <div>
           <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight">
+            <h1 className="font-display text-3xl font-bold tracking-tight">
               {analytics.poll.title}
             </h1>
             <Badge variant="live">Live</Badge>
@@ -166,7 +166,7 @@ export function AnalyticsPage() {
               <p className="text-sm text-neutral-500 dark:text-neutral-400">
                 Total responses
               </p>
-              <p className="mt-2 text-3xl font-bold tracking-tight">
+              <p className="font-display mt-2 text-4xl font-bold tracking-tight">
                 {analytics.summary.totalResponses}
               </p>
             </div>

@@ -51,7 +51,7 @@ export function LoginPage() {
                 <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
                     PulseKar
                 </p>
-                <h1 className="mt-2 text-3xl font-bold tracking-tight">
+                <h1 className="font-display mt-2 text-4xl font-bold tracking-tight">
                     Welcome back
                 </h1>
             </div>
@@ -84,7 +84,7 @@ export function LoginPage() {
 
             <p className="mt-6 text-sm text-neutral-500 dark:text-neutral-400">
                 New here?{" "}
-                <Link className="font-medium text-neutral-950 dark:text-white" to="/register">
+                <Link className="font-bold text-[#f3701e]" to="/register">
                     Create account
                 </Link>
             </p>
