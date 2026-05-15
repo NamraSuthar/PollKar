@@ -46,7 +46,6 @@ function createApp() {
         res.sendFile(path.join(frontendPath, 'index.html'));
     });
 
-    app.use(notFoundHandler)
     app.use(errorHandler)
 
 
