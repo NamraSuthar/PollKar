@@ -7,6 +7,7 @@ import * as schemas from "./schema/index.js"
 const { Pool } = pg
 const client = new Pool({
     connectionString: env.databaseUrl,
+    ssl: env.databaseSsl ? { rejectUnauthorized: false } : undefined,
 })
 
 const db = drizzle(client, { schema: schemas })
