@@ -1,4 +1,4 @@
-import { BarChart3, LogOut, Plus, Vote } from "lucide-react";
+import { BarChart3, LogOut, Vote } from "lucide-react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 import { Button } from "../components/Button";
@@ -39,13 +39,6 @@ export function DashboardLayout({ theme, onToggleTheme }) {
                     </NavLink>
 
                     <div className="flex items-center gap-2">
-                        <Button
-                            size="sm"
-                            onClick={() => navigate("/dashboard/polls/new")}
-                        >
-                            <Plus className="size-4" />
-                            New poll
-                        </Button>
                         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
                         <Button variant="ghost" size="sm" onClick={handleLogout}>
                             <LogOut className="size-4" />

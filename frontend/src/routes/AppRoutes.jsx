@@ -7,6 +7,7 @@ import { getAccessToken } from "../common/utils/auth-token.js";
 import { LoginPage } from "../modules/auth/LoginPage.jsx";
 import { RegisterPage } from "../modules/auth/RegisterPage.jsx";
 import { AnalyticsPage } from "../modules/analytics/AnalyticsPage.jsx";
+import { AnalyticsListPage } from "../modules/analytics/AnalyticsListPage.jsx";
 import { PublicResultsPage } from "../modules/analytics/PublicResultsPage.jsx";
 import { CreatePollPage } from "../modules/polls/CreatePollPage.jsx";
 import { PollListPage } from "../modules/polls/PollListPage.jsx";
@@ -63,7 +64,7 @@ export function AppRoutes({ theme, onToggleTheme }) {
         <Route path="polls" element={<PollListPage />} />
         <Route path="polls/new" element={<CreatePollPage />} />
         <Route path="polls/:id" element={<PollDetailPage />} />
-        <Route path="analytics" element={<AnalyticsPage />} />
+        <Route path="analytics" element={<AnalyticsListPage />} />
         <Route path="analytics/:pollId" element={<AnalyticsPage />} />
       </Route>
 

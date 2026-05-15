@@ -1,6 +1,6 @@
-import { Activity, BarChart3, Radio } from "lucide-react";
+import { Activity, ArrowLeft, BarChart3, Radio } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { Badge } from "../../common/components/Badge";
 import { Button } from "../../common/components/Button";
@@ -41,21 +41,38 @@ function OptionBar({ option }) {
 
 export function AnalyticsPage() {
   const { pollId } = useParams();
+  const navigate = useNavigate();
 
+  const [polls, setPolls] = useState([]);
+  const [selectedPollId, setSelectedPollId] = useState(pollId || null);
   const [analytics, setAnalytics] = useState(null);
-  const [loading, setLoading] = useState(Boolean(pollId));
+  const [loading, setLoading] = useState(true);
+  const [pollsLoading, setPollsLoading] = useState(true);
   const [error, setError] = useState("");
   const [liveMessage, setLiveMessage] = useState("");
 
+  async function loadPolls() {
+    setPollsLoading(true);
+    try {
+      const response = await api.get("/polls");
+      setPolls(response.data.data.polls || []);
+    } catch (err) {
+      setError(err.response?.data?.message || "Unable to load polls.");
+    } finally {
+      setPollsLoading(false);
+    }
+  }
+
   async function loadAnalytics() {
-    if (!pollId) {
+    if (!selectedPollId) {
       return;
     }
 
+    setLoading(true);
     setError("");
 
     try {
-      const response = await api.get(`/analytics/polls/${pollId}`);
+      const response = await api.get(`/analytics/polls/${selectedPollId}`);
       setAnalytics(response.data.data.analytics);
     } catch (err) {
       setError(err.response?.data?.message || "Unable to load analytics.");
@@ -65,11 +82,15 @@ export function AnalyticsPage() {
   }
 
   useEffect(() => {
-    loadAnalytics();
-  }, [pollId]);
+    loadPolls();
+  }, []);
 
   useEffect(() => {
-    if (!pollId) {
+    loadAnalytics();
+  }, [selectedPollId]);
+
+  useEffect(() => {
+    if (!selectedPollId) {
       return;
     }
 
@@ -77,7 +98,7 @@ export function AnalyticsPage() {
       socket.connect();
     }
 
-    socket.emit("poll:join", pollId);
+    socket.emit("poll:join", selectedPollId);
 
     function handleResponseCreated(payload) {
       setLiveMessage(`New response received. Total responses: ${payload.responseCount}`);
@@ -87,145 +108,141 @@ export function AnalyticsPage() {
     socket.on("poll:response-created", handleResponseCreated);
 
     return () => {
-      socket.emit("poll:leave", pollId);
+      socket.emit("poll:leave", selectedPollId);
       socket.off("poll:response-created", handleResponseCreated);
     };
-  }, [pollId]);
+  }, [selectedPollId]);
 
-  if (!pollId) {
-    return (
-      <div>
-        <div className="mb-6">
-          <h1 className="font-display text-3xl font-bold tracking-tight">Analytics</h1>
-          <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
-            Open a poll from your dashboard to view detailed analytics.
-          </p>
-        </div>
-
-        <Card className="p-6">
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            Choose a poll to inspect response summaries and live updates.
-          </p>
-          <Link to="/dashboard/polls">
-            <Button className="mt-5">Go to polls</Button>
-          </Link>
-        </Card>
-      </div>
-    );
-  }
-
-  if (loading) {
+  if (pollsLoading) {
     return (
       <Card className="p-6">
         <p className="text-sm text-neutral-500 dark:text-neutral-400">
-          Loading analytics...
+          Loading polls...
         </p>
       </Card>
     );
   }
 
-  if (error && !analytics) {
-    return <p className="text-sm text-red-600">{error}</p>;
-  }
-
   return (
     <div>
-      <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-start">
-        <div>
-          <div className="flex flex-wrap items-center gap-2">
-            <h1 className="font-display text-3xl font-bold tracking-tight">
-              {analytics.poll.title}
-            </h1>
-            <Badge variant="live">Live</Badge>
-          </div>
-
-          <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
-            {analytics.poll.description || "Response analytics and option summaries."}
-          </p>
-        </div>
-
-        <Link to={`/dashboard/polls/${analytics.poll.id}`}>
-          <Button variant="secondary">Back to poll</Button>
-        </Link>
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="font-display text-3xl font-bold tracking-tight">Analytics</h1>
+        <Button
+          variant="secondary"
+          className="mb-4"
+          onClick={() => navigate("/dashboard/analytics")}
+        >
+          <ArrowLeft className="size-4" />
+          Back to Analytics
+        </Button>
       </div>
 
-      {liveMessage ? (
-        <Card className="mb-4 border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-900 dark:bg-emerald-950">
-          <p className="text-sm text-emerald-700 dark:text-emerald-300">
-            {liveMessage}
-          </p>
-        </Card>
-      ) : null}
-
-      {error ? <p className="mb-4 text-sm text-red-600">{error}</p> : null}
-
-      <div className="mb-4 grid gap-4 md:grid-cols-3">
-        <Card className="p-5">
-          <div className="flex items-center justify-between gap-4">
+      <div>
+        {error && !analytics ? (
+            <p className="text-sm text-red-600">{error}</p>
+          ) : analytics ? (
             <div>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                Total responses
-              </p>
-              <p className="font-display mt-2 text-4xl font-bold tracking-tight">
-                {analytics.summary.totalResponses}
-              </p>
-            </div>
-            <Activity className="size-5 text-neutral-400" />
-          </div>
-        </Card>
+              <Card className="mb-6 border-2 border-[#f3701e] bg-[#fff7ef] p-5 dark:border-[#f3701e] dark:bg-[#1a0f08]">
+                <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
+                  <div className="flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h2 className="font-display text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">
+                        {analytics.poll.title}
+                      </h2>
+                      <Badge variant="live">Live</Badge>
+                    </div>
 
-        <Card className="p-5">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                Status
-              </p>
-              <p className="mt-2 text-lg font-semibold capitalize">
-                {analytics.summary.completionStatus}
-              </p>
-            </div>
-            <Radio className="size-5 text-neutral-400" />
-          </div>
-        </Card>
+                    <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
+                      {analytics.poll.description || "Response analytics and option summaries."}
+                    </p>
+                  </div>
 
-        <Card className="p-5">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                Expiry
-              </p>
-              <p className="mt-2 text-sm font-semibold">
-                {formatDate(analytics.poll.expiresAt)}
-              </p>
-            </div>
-            <BarChart3 className="size-5 text-neutral-400" />
-          </div>
-        </Card>
-      </div>
+                  <Link to={`/dashboard/polls/${analytics.poll.id}`}>
+                    <Button variant="secondary">View poll</Button>
+                  </Link>
+                </div>
+              </Card>
 
-      <div className="grid gap-4">
-        {analytics.questions.map((question) => (
-          <Card key={question.id} className="p-5">
-            <div className="mb-4 flex flex-col justify-between gap-2 md:flex-row md:items-start">
-              <div>
-                <p className="text-xs font-medium uppercase text-neutral-500 dark:text-neutral-500">
-                  Question {question.position + 1}
-                </p>
-                <h2 className="mt-1 font-semibold">{question.title}</h2>
+              {liveMessage ? (
+                <Card className="mb-6 border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-900 dark:bg-emerald-950">
+                  <p className="text-sm text-emerald-700 dark:text-emerald-300">
+                    {liveMessage}
+                  </p>
+                </Card>
+              ) : null}
+
+              {error ? <p className="mb-4 text-sm text-red-600">{error}</p> : null}
+
+              <div className="mb-4 grid gap-4 md:grid-cols-3">
+                <Card className="p-5">
+                  <div className="flex items-center justify-between gap-4">
+                    <div>
+                      <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                        Total responses
+                      </p>
+                      <p className="font-display mt-2 text-4xl font-bold tracking-tight">
+                        {analytics.summary.totalResponses}
+                      </p>
+                    </div>
+                    <Activity className="size-5 text-neutral-400" />
+                  </div>
+                </Card>
+
+                <Card className="p-5">
+                  <div className="flex items-center justify-between gap-4">
+                    <div>
+                      <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                        Status
+                      </p>
+                      <p className="mt-2 text-lg font-semibold capitalize">
+                        {analytics.summary.completionStatus}
+                      </p>
+                    </div>
+                    <Radio className="size-5 text-neutral-400" />
+                  </div>
+                </Card>
+
+                <Card className="p-5">
+                  <div className="flex items-center justify-between gap-4">
+                    <div>
+                      <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                        Expiry
+                      </p>
+                      <p className="mt-2 text-sm font-semibold">
+                        {formatDate(analytics.poll.expiresAt)}
+                      </p>
+                    </div>
+                    <BarChart3 className="size-5 text-neutral-400" />
+                  </div>
+                </Card>
               </div>
 
-              <Badge variant={question.isRequired ? "neutral" : "warning"}>
-                {question.isRequired ? "Required" : "Optional"}
-              </Badge>
-            </div>
+              <div className="grid gap-4">
+                {analytics.questions.map((question) => (
+                  <Card key={question.id} className="p-5">
+                    <div className="mb-4 flex flex-col justify-between gap-2 md:flex-row md:items-start">
+                      <div>
+                        <p className="text-xs font-medium uppercase text-neutral-500 dark:text-neutral-500">
+                          Question {question.position + 1}
+                        </p>
+                        <h2 className="mt-1 font-semibold">{question.title}</h2>
+                      </div>
 
-            <div className="grid gap-4">
-              {question.options.map((option) => (
-                <OptionBar key={option.id} option={option} />
-              ))}
+                      <Badge variant={question.isRequired ? "neutral" : "warning"}>
+                        {question.isRequired ? "Required" : "Optional"}
+                      </Badge>
+                    </div>
+
+                    <div className="grid gap-4">
+                      {question.options.map((option) => (
+                        <OptionBar key={option.id} option={option} />
+                      ))}
+                    </div>
+                  </Card>
+                ))}
+              </div>
             </div>
-          </Card>
-        ))}
+          ) : null}
       </div>
     </div>
   );

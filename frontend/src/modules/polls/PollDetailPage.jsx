@@ -4,9 +4,10 @@ import {
     Clipboard,
     ExternalLink,
     Send,
+    ArrowLeft,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 import { Badge } from "../../common/components/Badge";
 import { Button } from "../../common/components/Button";
@@ -38,6 +39,7 @@ function formatDate(value) {
 
 export function PollDetailPage() {
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const [poll, setPoll] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -110,6 +112,15 @@ export function PollDetailPage() {
 
     return (
         <div>
+            <Button 
+                variant="secondary" 
+                className="mb-4"
+                onClick={() => navigate("/dashboard/polls")}
+            >
+                <ArrowLeft className="size-4" />
+                Back to polls
+            </Button>
+
             <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-start">
                 <div>
                     <div className="flex flex-wrap items-center gap-2">

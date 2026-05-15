@@ -59,7 +59,7 @@ export function RegisterPage() {
             <form className="grid gap-4" onSubmit={handleSubmit}>
                 <Input
                     label="Name"
-                    placeholder="Namra Suthar"
+                    placeholder="name"
                     value={form.name}
                     onChange={(event) => updateField("name", event.target.value)}
                     required

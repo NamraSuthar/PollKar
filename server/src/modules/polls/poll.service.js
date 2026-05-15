@@ -105,7 +105,8 @@ export class PollService {
       throw new AppError("Poll not found", 404);
     }
 
-    return toPollSummaryDto(poll);
+    const questions = await pollRepository.getQuestionsWithOptions(poll.id);
+    return toPollDetailDto(poll, questions);
   }
 }
 

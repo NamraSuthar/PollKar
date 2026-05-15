@@ -1,28 +1,27 @@
-# PollKar
+# PulseKar
 
-PollKar is a full-stack realtime polling and feedback platform. Authenticated users can create polls, share public links, collect anonymous or authenticated responses, view live analytics, and publish final results.
+PulseKar is a full‑stack realtime polling and feedback platform. Creators can build single‑choice polls, share public links, collect anonymous or authenticated responses, and view live analytics that update in realtime.
 
 ## Tech Stack
 
-Frontend:
+Frontend
 - React + Vite
 - React Router
 - Axios
-- Socket.IO Client
+- Socket.IO client
 - Tailwind CSS
 
-Backend:
-- Node.js
-- Express.js
+Backend
+- Node.js + Express
 - PostgreSQL
 - Drizzle ORM
-- JWT Authentication
-- Socket.IO
+- JWT auth
+- Socket.IO server
 
-Architecture:
+Architecture
 - Feature-based modular monolith
-- Repository pattern
-- Shared common layer
+- Repository + service layers
+- Shared `common` components and utilities
 
 ## Features
 
@@ -40,74 +39,70 @@ Architecture:
 - Realtime response updates with Socket.IO
 - Publish final results publicly
 
-## Local Setup
+## Quick start (local)
 
-### 1. Install dependencies
+Requirements
+- Node.js 18+ and pnpm
+- Docker (optional, for local Postgres)
+
+1) Install dependencies
 
 ```bash
 pnpm install
 ```
 
-### 2. Start PostgreSQL
+2) Start a local Postgres (optional but recommended)
 
 ```bash
 docker compose up -d
 ```
 
-### 3. Configure backend env
+3) Create env files
 
-Create `server/.env`:
+- `server/.env` (example)
 
 ```env
 NODE_ENV=development
 PORT=5000
 CLIENT_URL=http://localhost:5173
-DATABASE_URL=postgresql://pollkar:pollkar@localhost:5433/pollkar
-JWT_ACCESS_SECRET=pollkar_local_development_access_secret_please_change
-JWT_ACCESS_EXPIRES_IN=1d
+DATABASE_URL=postgresql://user:pass@localhost:5432/pulsekar
+JWT_ACCESS_SECRET=change_this_secret
 ```
 
-### 4. Configure frontend env
-
-Create `frontend/.env`:
+- `frontend/.env` (example)
 
 ```env
 VITE_API_URL=http://localhost:5000/api
 VITE_SOCKET_URL=http://localhost:5000
 ```
 
-### 5. Run migrations
+4) Apply DB migrations
+
+The SQL migrations are in `server/db/migrations/`. Apply them to your Postgres instance (your preferred migration tool or psql). Example (psql):
 
 ```bash
-cd server
-pnpm db:migrate
+# adjust connection string as needed
+psql "postgresql://user:pass@localhost:5432/pulsekar" -f server/db/migrations/0000_shocking_colonel_america.sql
 ```
 
-### 6. Start development
+5) Start development servers
+
+From the repository root (monorepo):
 
 ```bash
 pnpm dev
 ```
 
-Frontend:
+Or run services individually:
 
-```txt
-http://localhost:5173
+```bash
+pnpm --filter frontend dev    # frontend on http://localhost:5173
+pnpm --filter server dev      # backend on http://localhost:5000
 ```
 
-Backend:
+Health check: `http://localhost:5000/health`
 
-```txt
-http://localhost:5000
-```
-
-Health check:
-
-```txt
-http://localhost:5000/health
-```
-
-## API Overview
+## API overview
 
 Auth:
 
@@ -179,12 +174,32 @@ Key design decisions:
 - Answers reference the selected option for each question.
 - Polls cache `response_count` for fast realtime dashboard updates.
 
-## Demo Flow
+## Demo flow
 
-1. Register or login as a creator.
-2. Create a poll with multiple single-choice questions.
-3. Copy the public poll link.
-4. Submit a response from another browser or incognito window.
-5. Watch analytics update live.
-6. Publish final results.
-7. Open the same public link to view the published outcome.
+1. Register or log in as a creator
+2. Create a poll with single-choice questions
+3. Copy the public poll URL and open in another browser/incognito
+4. Submit one or more responses
+5. Watch the creator dashboard update in realtime
+6. Publish final results and verify via the public link
+
+## Common routes (frontend)
+
+- Creator dashboard: `/dashboard/polls`
+- Analytics list: `/dashboard/analytics`
+- Poll analytics detail: `/dashboard/analytics/:pollId`
+- Public poll: `/poll/:slug`
+
+## Troubleshooting
+
+- If you see an error like `relation "users" does not exist` when the server starts, the database schema likely hasn't been applied. Run the migrations in `server/db/migrations/` against your Postgres instance.
+- If the frontend cannot reach the API, verify `frontend/.env` `VITE_API_URL` matches the running backend and CORS is allowed.
+
+## Contributing
+
+- Use the existing `common` components and `modules/*` structure for features.
+- Run linting and formatting before creating PRs; file a short description and screenshots for UI changes.
+
+---
+
+If you'd like, I can also add a `server/.env.example` and a short migration command snippet (drizzle-kit) — want that? 
