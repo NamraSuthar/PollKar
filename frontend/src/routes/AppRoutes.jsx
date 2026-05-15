@@ -14,42 +14,68 @@ import { PublicPollPage } from "../modules/polls/PublicPollPage.jsx";
 import { PollDetailPage } from "../modules/polls/PollDetailPage.jsx";
 
 function ProtectedRoute({ children }) {
-    if (!getAccessToken()) {
-        return <Navigate to="/login" replace />;
-    }
+  if (!getAccessToken()) {
+    return <Navigate to="/login" replace />;
+  }
 
-    return children;
+  return children;
+}
+
+function GuestRoute({ children }) {
+  if (getAccessToken()) {
+    return <Navigate to="/dashboard/polls" replace />;
+  }
+
+  return children;
 }
 
 export function AppRoutes({ theme, onToggleTheme }) {
-    return (
-        <Routes>
-            <Route element={<AuthLayout />}>
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-            </Route>
+  return (
+    <Routes>
+      <Route element={<AuthLayout />}>
+        <Route
+          path="/login"
+          element={
+            <GuestRoute>
+              <LoginPage />
+            </GuestRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <GuestRoute>
+              <RegisterPage />
+            </GuestRoute>
+          }
+        />
+      </Route>
 
-            <Route
-                path="/dashboard"
-                element={
-                    <ProtectedRoute>
-                        <DashboardLayout theme={theme} onToggleTheme={onToggleTheme} />
-                    </ProtectedRoute>
-                }
-            >
-                <Route index element={<Navigate to="/dashboard/polls" replace />} />
-                <Route path="polls" element={<PollListPage />} />
-                <Route path="polls/new" element={<CreatePollPage />} />
-                <Route path="polls/:id" element={<PollDetailPage />} />
-                <Route path="analytics" element={<AnalyticsPage />} />
-                <Route path="analytics/:pollId" element={<AnalyticsPage />} />
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout theme={theme} onToggleTheme={onToggleTheme} />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<Navigate to="/dashboard/polls" replace />} />
+        <Route path="polls" element={<PollListPage />} />
+        <Route path="polls/new" element={<CreatePollPage />} />
+        <Route path="polls/:id" element={<PollDetailPage />} />
+        <Route path="analytics" element={<AnalyticsPage />} />
+        <Route path="analytics/:pollId" element={<AnalyticsPage />} />
+      </Route>
 
-            </Route>
+      <Route path="/poll/:slug" element={<PublicPollPage />} />
+      <Route path="/poll/:slug/results" element={<PublicResultsPage />} />
 
-            <Route path="/poll/:slug" element={<PublicPollPage />} />
-            <Route path="/poll/:slug/results" element={<PublicResultsPage />} />
-
-            <Route path="*" element={<Navigate to="/dashboard/polls" replace />} />
-        </Routes>
-    );
+      <Route
+        path="*"
+        element={
+          <Navigate to={getAccessToken() ? "/dashboard/polls" : "/login"} replace />
+        }
+      />
+    </Routes>
+  );
 }

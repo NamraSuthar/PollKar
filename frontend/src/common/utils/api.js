@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { getAccessToken } from "./auth-token";
+import { clearAccessToken, getAccessToken } from "./auth-token";
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
@@ -16,4 +16,18 @@ api.interceptors.request.use((config) => {
 
   return config;
 });
-    
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      clearAccessToken();
+
+      if (window.location.pathname.startsWith("/dashboard")) {
+        window.location.href = "/login";
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);

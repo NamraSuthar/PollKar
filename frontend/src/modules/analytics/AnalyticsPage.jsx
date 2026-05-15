@@ -5,8 +5,8 @@ import { Link, useParams } from "react-router-dom";
 import { Badge } from "../../common/components/Badge";
 import { Button } from "../../common/components/Button";
 import { Card } from "../../common/components/Card";
-import { api } from "../../common/utils/api";
-import { socket } from "../../socket/socket";
+import { api } from "../../common/utils/api.js";
+import { socket } from "../../socket/socket.js";
 
 function formatDate(value) {
   if (!value) {
