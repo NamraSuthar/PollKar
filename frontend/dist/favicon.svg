@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+  <style>
+    .mark { color: #141414; }
+    @media (prefers-color-scheme: dark) {
+      .mark { color: #f7f2ec; }
+    }
+  </style>
+  <rect width="96" height="96" rx="22" fill="#e8d8c9"/>
+  <path class="mark" d="M23 78V31c0-13 10-23 24-23h16c17 0 30 13 30 30s-13 30-30 30H47L32 83V62L12 42" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"/>
+  <rect x="38" y="45" width="12" height="17" rx="4" fill="#4b607f"/>
+  <rect x="55" y="36" width="12" height="26" rx="4" fill="#fff7ef"/>
+  <rect x="72" y="25" width="12" height="37" rx="4" fill="#f3701e"/>
+</svg>
