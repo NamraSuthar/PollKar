@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const THEME_KEY = "pulsekar_theme";
+const THEME_KEY = "pollkar_theme";
 
 function getInitialTheme() {
   const savedTheme = localStorage.getItem(THEME_KEY);

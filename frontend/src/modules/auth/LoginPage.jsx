@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from "../../common/components/Button";
+import { BrandLogo } from "../../common/components/BrandLogo";
 import { Card } from "../../common/components/Card";
 import { Input } from "../../common/components/Input";
 import { api } from "../../common/utils/api";
@@ -48,9 +49,7 @@ export function LoginPage() {
     return (
         <Card className="w-full p-6">
             <div className="mb-8">
-                <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
-                    PulseKar
-                </p>
+                <BrandLogo className="mb-6" />
                 <h1 className="font-display mt-2 text-4xl font-bold tracking-tight">
                     Welcome back
                 </h1>

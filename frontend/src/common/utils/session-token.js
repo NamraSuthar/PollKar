@@ -1,4 +1,4 @@
-const SESSION_TOKEN_KEY = "pulsekar_session_token";
+const SESSION_TOKEN_KEY = "pollkar_session_token";
 
 export function getOrCreateSessionToken() {
     const existingToken = localStorage.getItem(SESSION_TOKEN_KEY);

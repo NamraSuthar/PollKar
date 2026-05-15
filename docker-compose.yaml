@@ -1,21 +1,21 @@
 services:
   postgres:
     image: postgres:16
-    container_name: pulsekar-postgres
+    container_name: pollkar-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: pulsekar
-      POSTGRES_PASSWORD: pulsekar
-      POSTGRES_DB: pulsekar
+      POSTGRES_USER: pollkar
+      POSTGRES_PASSWORD: pollkar
+      POSTGRES_DB: pollkar
     ports:
       - "5433:5432"
     volumes:
-      - pulsekar_postgres_data:/var/lib/postgresql/data
+      - pollkar_postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U pulsekar -d pulsekar"]
+      test: ["CMD-SHELL", "pg_isready -U pollkar -d pollkar"]
       interval: 10s
       timeout: 5s
       retries: 5
 
 volumes:
-  pulsekar_postgres_data:
+  pollkar_postgres_data:

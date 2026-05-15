@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { Badge } from "../../common/components/Badge";
+import { BrandLogo } from "../../common/components/BrandLogo";
 import { Button } from "../../common/components/Button";
 import { Card } from "../../common/components/Card";
 import { api } from "../../common/utils/api";
@@ -34,7 +35,7 @@ export function PublicResultsPage() {
 
     if (loading) {
         return (
-            <main className="pulsekar-canvas pulsekar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
+            <main className="pollkar-canvas pollkar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
                 <div className="mx-auto max-w-3xl">
                     <Card className="p-6">
                         <p className="text-sm text-neutral-500 dark:text-neutral-400">
@@ -48,7 +49,7 @@ export function PublicResultsPage() {
 
     if (error) {
         return (
-            <main className="pulsekar-canvas pulsekar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
+            <main className="pollkar-canvas pollkar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
                 <div className="mx-auto max-w-3xl">
                     <Card className="p-6">
                         <p className="text-sm text-red-600">{error}</p>
@@ -59,8 +60,9 @@ export function PublicResultsPage() {
     }
 
     return (
-        <main className="pulsekar-canvas pulsekar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
+        <main className="pollkar-canvas pollkar-grid min-h-screen px-4 py-10 text-[#141414] dark:text-[#e8d8c9]">
             <div className="mx-auto max-w-3xl">
+                <BrandLogo compact className="mb-6" />
                 <Link to={`/poll/${slug}`}>
                     <Button variant="ghost" size="sm">
                         <ArrowLeft className="size-4" />

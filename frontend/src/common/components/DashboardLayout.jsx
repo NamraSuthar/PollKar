@@ -2,6 +2,7 @@ import { BarChart3, LogOut, Plus, Vote } from "lucide-react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 import { Button } from "../components/Button";
+import { BrandLogo } from "../components/BrandLogo";
 import { ThemeToggle } from "../components/ThemeToggle";
 import { clearAccessToken } from "../utils/auth-token";
 
@@ -27,15 +28,13 @@ export function DashboardLayout({ theme, onToggleTheme }) {
     }
 
     return (
-        <main className="pulsekar-canvas pulsekar-grid min-h-screen text-[#141414] dark:text-[#e8d8c9]">
+        <main className="pollkar-canvas pollkar-grid min-h-screen text-[#141414] dark:text-[#e8d8c9]">
             <header className="sticky top-0 z-20 border-b-2 border-[#141414] bg-[#e8d8c9]/90 backdrop-blur dark:border-[#e8d8c9] dark:bg-[#111111]/90">
                 <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
                     <NavLink to="/dashboard/polls" className="flex items-center gap-2">
-                        <span className="grid size-8 place-items-center rounded-xl border-2 border-[#141414] bg-[#f3701e] text-sm font-black text-[#141414] shadow-[3px_3px_0_#141414] dark:border-[#e8d8c9] dark:shadow-[3px_3px_0_#4b607f]">
-                            P
-                        </span>
-                        <span className="font-display text-sm font-bold tracking-tight">
-                            PulseKar
+                        <BrandLogo compact />
+                        <span className="font-display text-lg font-black tracking-tight">
+                            Poll<span className="text-[#f3701e]">Kar</span>
                         </span>
                     </NavLink>
 

@@ -1,6 +1,6 @@
-# PulseKar
+# PollKar
 
-PulseKar is a full-stack realtime polling and feedback platform. Authenticated users can create polls, share public links, collect anonymous or authenticated responses, view live analytics, and publish final results.
+PollKar is a full-stack realtime polling and feedback platform. Authenticated users can create polls, share public links, collect anonymous or authenticated responses, view live analytics, and publish final results.
 
 ## Tech Stack
 
@@ -62,8 +62,8 @@ Create `server/.env`:
 NODE_ENV=development
 PORT=5000
 CLIENT_URL=http://localhost:5173
-DATABASE_URL=postgresql://pulsekar:pulsekar@localhost:5433/pulsekar
-JWT_ACCESS_SECRET=pulsekar_local_development_access_secret_please_change
+DATABASE_URL=postgresql://pollkar:pollkar@localhost:5433/pollkar
+JWT_ACCESS_SECRET=pollkar_local_development_access_secret_please_change
 JWT_ACCESS_EXPIRES_IN=1d
 ```
 
@@ -165,7 +165,7 @@ poll:<pollId>
 
 ## Database Design
 
-PulseKar uses a normalized PostgreSQL schema:
+PollKar uses a normalized PostgreSQL schema:
 
 ```txt
 users -> polls -> questions -> options

@@ -45,28 +45,28 @@ select {
   font-family: "Space Grotesk", Inter, sans-serif;
 }
 
-.pulsekar-canvas {
+.pollkar-canvas {
   background:
     radial-gradient(circle at 8% 10%, rgba(243, 112, 30, 0.18), transparent 28rem),
     radial-gradient(circle at 92% 0%, rgba(75, 96, 127, 0.22), transparent 26rem),
     #e8d8c9;
 }
 
-.dark .pulsekar-canvas {
+.dark .pollkar-canvas {
   background:
     radial-gradient(circle at 8% 10%, rgba(243, 112, 30, 0.18), transparent 28rem),
     radial-gradient(circle at 92% 0%, rgba(75, 96, 127, 0.22), transparent 26rem),
     #111111;
 }
 
-.pulsekar-grid {
+.pollkar-grid {
   background-image:
     linear-gradient(rgba(20, 20, 20, 0.07) 1px, transparent 1px),
     linear-gradient(90deg, rgba(20, 20, 20, 0.07) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
-.dark .pulsekar-grid {
+.dark .pollkar-grid {
   background-image:
     linear-gradient(rgba(232, 216, 201, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(232, 216, 201, 0.06) 1px, transparent 1px);
