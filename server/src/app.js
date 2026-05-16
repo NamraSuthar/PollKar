@@ -46,12 +46,17 @@ function createApp() {
     }));
 
     // SPA fallback: serve index.html for all non-API routes
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(frontendPath, 'index.html'), (err) => {
-            if (err) {
-                res.status(404).json({ error: 'Not found' });
-            }
-        });
+    app.use((req, res, next) => {
+        // Only serve index.html for non-API requests
+        if (!req.path.startsWith('/api')) {
+            res.sendFile(path.join(frontendPath, 'index.html'), (err) => {
+                if (err) {
+                    next();
+                }
+            });
+        } else {
+            next();
+        }
     });
 
     app.use(errorHandler)
