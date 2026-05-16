@@ -39,11 +39,19 @@ function createApp() {
 
     // Serve frontend static files
     const frontendPath = path.join(__dirname, '../../frontend/dist');
-    app.use(express.static(frontendPath));
+    app.use(express.static(frontendPath, { 
+        setHeaders: (res, path) => {
+            res.set('Cache-Control', 'no-cache');
+        }
+    }));
 
     // SPA fallback: serve index.html for all non-API routes
     app.get('*', (req, res) => {
-        res.sendFile(path.join(frontendPath, 'index.html'));
+        res.sendFile(path.join(frontendPath, 'index.html'), (err) => {
+            if (err) {
+                res.status(404).json({ error: 'Not found' });
+            }
+        });
     });
 
     app.use(errorHandler)
