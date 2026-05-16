@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import { clearAccessToken, getAccessToken } from "./auth-token";
 
 export const api = axios.create({
