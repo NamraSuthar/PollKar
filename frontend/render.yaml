@@ -1,7 +1,0 @@
-routes:
-  - path: /*
-    methods:
-      - GET
-      - HEAD
-    destination: /index.html
-    status: 200
